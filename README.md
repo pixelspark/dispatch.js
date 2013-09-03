@@ -5,6 +5,12 @@ as a generator function which yields after starting lengthy asynchronous operati
 a special 'resume' object, dispatch.js will resume execution where we left off as soon as the 
 callback is completed.
 
+
+## Prerequisites
+
+Dispatch.js works in any JavaScript environment that supports modules and ES6 generations. To
+use it in NodeJS, start Node with the '--harmony' command line flag.
+
 ## Usage
 
 Use as follows:
@@ -14,15 +20,33 @@ var dispatch = require("dispatch");
 dispatch(function*(resume) {
 	yield setTimeout(resume(), 1000);
 	var x = yield someOtherAsyncOperation(resume());
+	console.log(x);
 });
 ````
 
-If a callback is set (second parameter) it is called when the job is complete (which makes
-nesting dispatches easy). If more than two parameters are set, the function will be called
-with those parameters plus the resume function added as last parameter.
+The above would be equivalent to:
 
-Note that there are two ways to call another dispatched function. One is by using dispatch
-in conjunction with resume; the other (which is probably more readable) is to use delegated
+````javascript
+setTimeout(function() {
+	someOtherAsyncOperation(function(err, x) {
+		console.log(x);
+	});
+}, 1000);
+````
+
+Although the dispatch-based code is a little longer, it eliminates the nested callback mess
+that will emerge in more complex pieces of code. 
+
+## Documentation
+
+The dispatch function requires a generator function as its first parameter. Any subsequent
+parameters are passed on to the function when it is executed, except for the last one, which
+is used as a callback to signal the completion of execution of the function.
+
+There are two ways to call another dispatched function from inside dispatch. The dispatch 
+function accepts a callback that is called when the execution of the dispatched function 
+completes. Calls to dispatched functions can therefore be nested by using dispatch in 
+conjunction with resume. The other way (which is probably more readable) is to use delegated
 yield. The following are thus equivalent:
 
 ````javascript
