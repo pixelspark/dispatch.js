@@ -1,0 +1,26 @@
+{
+  "name": "dispatch.js",
+  "version": "1.0.0",
+  "description": "Coroutine-based execution machinery for ES6",
+  "main": "dispatch.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pixelspark/dispatch.js.git"
+  },
+  "keywords": [
+    "callback",
+    "async",
+    "iterators",
+    "generators",
+    "es6",
+    "step"
+  ],
+  "author": "Tommy van der Vorst",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pixelspark/dispatch.js/issues"
+  }
+}
